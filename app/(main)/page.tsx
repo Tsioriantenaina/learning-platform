@@ -116,8 +116,8 @@ const HomePage = () => {
                         />
                     </div>
                     <span className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium border shadow-lg">
-            Hey, Welcome
-          </span>
+                        Hey, Welcome
+                    </span>
                     <h1 className="font-heading text-3xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
                         Learn By Doing with <br/> Easy Learning
                     </h1>
@@ -139,8 +139,7 @@ const HomePage = () => {
                 </div>
             </section>
 
-
-
+            <Element />
 
             {/* Categories Section */}
             <section
@@ -245,6 +244,7 @@ const HomePage = () => {
                 </div>
             </section>
 
+            <Support />
 
         </>
     );
