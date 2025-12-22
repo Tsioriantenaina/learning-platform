@@ -35,7 +35,7 @@ const MainLayout = ({ children } : { children : ReactNode}) => {
                     <MainNav items={navLinks} />
                 </div>
             </header>
-            <main className="container mx-auto px-4 mt-20">
+            <main className="container mx-auto px-4 mt-20 min-h-[calc(100vh-169px)]">
                 {children}
             </main>
             <Footer />

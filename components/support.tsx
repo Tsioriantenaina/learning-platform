@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Support = () => {
     return (
-        <div className="text-black py-5 px-4 md:px-16 border-b border-b-gray-700">
+        <div className="text-black py-5 px-4 md:px-16">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center space-y-12 md:space-y-0 md:space-x-8">
                 <div className="flex-1">
                     <h2 className="mt-5 text-3xl font-bold leading-tight text-gray-900 sm:leading-tight sm:text-5xl lg:leading-tight font-poppins">
