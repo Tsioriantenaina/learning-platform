@@ -25,7 +25,7 @@ const MainNav: FC<MainNavProps> = ({ items, children }) => {
     return (
         <>
             <div className="flex gap-6 items-center lg:gap-10">
-                <Link href="/public"><Logo /></Link>
+                <Link href="/"><Logo /></Link>
                 {
                     items.length > 0 ? (
                         <nav className="hidden gap-6 lg:flex">

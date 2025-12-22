@@ -5,11 +5,11 @@ import {formatPrice} from "@/lib/formatPrice";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {ArrowRight} from "lucide-react";
-import {ICourse} from "@/types/types";
+import {ICourseDTO} from "@/types/types";
 
 
 interface CourseCardProps {
-    course: ICourse;
+    course: ICourseDTO;
 }
 
 const CourseCard: FC<CourseCardProps> = ( {course}) => {
@@ -18,8 +18,8 @@ const CourseCard: FC<CourseCardProps> = ( {course}) => {
             <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
                 <div className="relative w-full aspect-video rounded-md overflow-hidden">
                     <Image
-                        src={`/assets/images/courses/${course.thumbnail}` || "/assets/images/courses/course-1.jpg"}
-                        alt={"course"}
+                        src={`/assets/images/courses/${course.thumbnail}`}
+                        alt={course.title}
                         className="object-cover"
                         fill
                     />
