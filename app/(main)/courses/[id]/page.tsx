@@ -2,24 +2,27 @@ import CourseDetailBanner from "@/app/(main)/courses/[id]/_components/CourseDeta
 import CourseDetails from "@/app/(main)/courses/[id]/_components/CourseDetails";
 import Testimonials from "@/app/(main)/courses/[id]/_components/Testimonials";
 import RelatedCourse from "@/app/(main)/courses/[id]/_components/RelatedCourse";
-import {getCourseList} from "@/queries/courses-query";
-import {ICourseDTO} from "@/types/types";
+import {getCourseDetails } from "@/queries/courses-query";
+import {ICourse, ICourseDTO} from "@/types/types";
 
-const SingleCoursePage = async () => {
 
-    const courses: ICourseDTO[] = await getCourseList();
-    const courseParsed = JSON.parse(JSON.stringify(courses));
+const SingleCoursePage = async ({params}: {params: Promise<{ id: string }>}) => {
+    const { id } = await params;
+    const course: ICourseDTO = await getCourseDetails(id);
+    // const courseParsed = JSON.parse(JSON.stringify(course));
+
+    console.log(course)
     return (
         <>
-            <CourseDetailBanner />
+            <CourseDetailBanner course={course} />
 
-            <CourseDetails />
+            <CourseDetails course={course} />
 
             {/* Testimonials */}
-            <Testimonials courses={courseParsed} />
+            {(course?.testimonials && course.testimonials.length > 0) && <Testimonials testimonials={course.testimonials} />}
 
             {/* Releated Course */}
-            <RelatedCourse courses={courseParsed} />
+            <RelatedCourse course={course} />
             {/* Authors */}
             {/* https://avatars.githubusercontent.com/u/1416832?v=4 */}
             {/* https://avatars.githubusercontent.com/u/3633137?v=4 */}

@@ -6,13 +6,13 @@ import Image from "next/image";
 import {ArrowRight, BookOpen} from "lucide-react";
 import {formatPrice} from "@/lib/formatPrice";
 import {Button} from "@/components/ui/button";
-import {ICourseDTO} from "@/types/types";
+import {ICourse, ICourseDTO} from "@/types/types";
 
 interface RelatedCourseProps {
-    courses: ICourseDTO[];
+    course: ICourseDTO;
 }
 
-const RelatedCourse: FC<RelatedCourseProps> = ({courses}) => {
+const RelatedCourse: FC<RelatedCourseProps> = ({course}) => {
     return (
         <section className="">
             <div className="container">
@@ -26,9 +26,9 @@ const RelatedCourse: FC<RelatedCourseProps> = ({courses}) => {
                     <CarouselPrevious />
                     <CarouselNext />
                     <CarouselContent>
-                        {courses.map((course) => (
+                        {course?.testimonials?.map((course, index) => (
                             <CarouselItem
-                                key={course.id}
+                                key={index}
                                 className="md:basis-1/2 lg:basis-1/3"
                             >
                                 <Link href={`/courses/${course.id}`}>

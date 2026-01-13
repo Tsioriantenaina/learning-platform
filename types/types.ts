@@ -9,29 +9,29 @@ export interface ISocialMedia {
 
 export interface IUser {
     _id: Types.ObjectId;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     password: string;
     email: string;
     phone: string;
     role: string;
     bio?: string;
-    socialMedia?: ISocialMedia;
-    profilePicture?: string;
+    social_media?: ISocialMedia;
+    profile_picture?: string;
     designation?: string;
 }
 
 export interface IUserDTO {
     id: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     password: string;
     email: string;
     phone: string;
     role: string;
     bio?: string;
-    socialMedia?: ISocialMedia;
-    profilePicture?: string;
+    social_media?: ISocialMedia;
+    profile_picture?: string;
     designation?: string;
 }
 
@@ -98,7 +98,7 @@ export interface ITestimonial {
     content: string;
     rating: number;
     courseId?: ICourse;
-    user?: IUser;
+    user: IUser;
 }
 
 export interface ITestimonialDTO {
@@ -106,7 +106,7 @@ export interface ITestimonialDTO {
     content: string;
     rating: number;
     courseId?: ICourseDTO;
-    user?: IUserDTO;
+    user: IUserDTO;
 }
 
 export interface IModule {
@@ -164,10 +164,10 @@ export interface ICourse  {
     modules: IModule[];
     price: number;
     active: boolean;
-    category?: ICategory;
+    category: ICategory;
     instructor: IInstructor
     testimonials?: ITestimonial[];
-    quizSet?: IQuiz;
+    quizSet: IQuiz;
     subtitle: string;
     learning: string[];
     createdOn: Date;
@@ -182,12 +182,12 @@ export interface ICourseDTO  {
     modules: IModuleDTO[];
     price: number;
     active: boolean;
-    category?: ICategoryDTO;
+    category: ICategoryDTO;
     instructor: IInstructorDTO
     testimonials?: ITestimonialDTO[];
-    quizSet?: IQuizDTO;
+    quizSet: IQuizDTO;
     subtitle: string;
     learning: string[];
     createdOn: Date;
-    modifiedOn?: Date;
+    modifiedOn: Date;
 }

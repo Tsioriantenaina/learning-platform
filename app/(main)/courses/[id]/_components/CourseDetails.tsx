@@ -1,38 +1,46 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import CourseOverview from "@/app/(main)/courses/[id]/_components/CourseOverview";
 import CourseCarriculum from "@/app/(main)/courses/[id]/_components/CourseCarriculum";
 import CourseInstructor from "@/app/(main)/courses/[id]/_components/CourseInstructor";
 import Image from "next/image";
+import {ICourseDTO} from "@/types/types";
+import {formatMyDate} from "@/lib/date";
 
-const CourseDetails = () => {
+interface CourseDetailsProps {
+    course: ICourseDTO
+}
+
+const CourseDetails: FC<CourseDetailsProps> = async ( { course }) => {
+    const { category, title, subtitle, instructor, modifiedOn } = course;
+    const lastUpdateDate: string = formatMyDate(modifiedOn);
     return (
         <section className="py-8 md:py-12 lg:py-24">
             <div className="container">
                     <span className="bg-green-500 px-4 py-0.5 rounded-full text-xs font-medium text-white inline-block">
-                        Development
+                        {category?.title }
                     </span>
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold 2xl:text-5xl mt-3">
-                    Reactive Accelerator
+                    {title}
                 </h3>
                 <p className="mt-3 text-gray-600 text-sm">
-                    Master React JS & Next JS
+                    {subtitle}
                 </p>
                 {/*  */}
                 <div className="flex sm:items-center gap-5 flex-col sm:flex-row sm:gap-6 md:gap-20 mt-6">
                     <div className="flex items-center gap-2">
-                        <img
+                        <Image
                             className="w-[40px] h-[40px] rounded-full"
-                            src="https://avatars.githubusercontent.com/u/47516621?v=4"
-                            alt="profile"
+                            src={instructor.profilePicture}
+                            alt={`${instructor.lastName} ${instructor.firstName}`}
                             width={200}
                             height={200}
                         />
-                        <p className="font-bold">Kazi Ariyan</p>
+                        <p className="font-bold">{`${instructor.firstName} ${instructor.lastName}`}</p>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                         <span className="text-success font-semibold">Last Updated: </span>
-                        <span>Feb 22, 2022</span>
+                        <span>{lastUpdateDate}</span>
                     </div>
                 </div>
 
@@ -47,7 +55,7 @@ const CourseDetails = () => {
                         </TabsList>
                         <TabsContent value="overview">
                             {/* each tab content can be independent component */}
-                            <CourseOverview />
+                            <CourseOverview course={course} />
                         </TabsContent>
                         <TabsContent value="curriculum">
                             {/* each tab content can be independent component */}

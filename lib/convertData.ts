@@ -1,4 +1,5 @@
 import { Document, Types} from "mongoose";
+import {IModule, IModuleDTO} from "@/types/types";
 
 /**
  * Replace _id with id in an array of Mongo documents
@@ -14,7 +15,19 @@ export const replaceMongoIdInArray = <T extends {_id: Types.ObjectId}>(array: T[
     }).map(({_id, ...rest}) => rest);
   }
 
-export const replaceMongoIdInObject = <T extends Document>(obj: T): (Omit<T, "_id"> & {id: string}) => {
-    const {_id, ...updatedObj} = {...obj, id: obj._id.toString()};
-    return updatedObj as (Omit<T, "_id"> & {id: string});
+export const replaceMongoIdInObject = <T extends {_id: Types.ObjectId}, ReturnType>(obj: T): ReturnType => {
+    const {_id, ...updatedObj} = obj;
+    return {...updatedObj, id: _id.toString()} as ReturnType;
+}
+
+
+export function convertIdOfArray<T extends { _id: Types.ObjectId | string }, ReturnType>(
+    array?: T[]
+): ReturnType[] {
+    if (!Array.isArray(array) || array.length === 0) return [];
+
+    return array.map(({ _id, ...rest }) => ({
+        ...rest,
+        id: _id.toString(),
+    })) as ReturnType[];
 }

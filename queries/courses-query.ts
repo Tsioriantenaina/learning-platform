@@ -3,16 +3,16 @@ import { Category } from "@/model/category-model";
 import { User } from "@/model/user-model";
 import {Testimonial} from "@/model/testimonial-model";
 import {Module} from "@/model/module-model";
-import {replaceMongoIdInArray} from "@/lib/convertData";
+import {convertIdOfArray, replaceMongoIdInArray, replaceMongoIdInObject} from "@/lib/convertData";
 import {
-    ICategory,
+    ICategory, ICategoryDTO,
     ICourse,
     ICourseDTO,
     IInstructor,
     IInstructorDTO,
     IModule,
     IModuleDTO, IQuiz, IQuizDTO,
-    ITestimonial, ITestimonialDTO
+    ITestimonial, ITestimonialDTO, IUser, IUserDTO
 } from "@/types/types";
 
 export async function getCourseList(): Promise<ICourseDTO[]> {
@@ -30,33 +30,45 @@ export async function getCourseList(): Promise<ICourseDTO[]> {
         model: Module
     }).lean<ICourse[]>();
 
-    const formatedCourses = replaceMongoIdInArray(courses);
+    // const formatedCourses = replaceMongoIdInArray(courses);
 
-    return formatedCourses.map(({category, instructor, modules, testimonials, quizSet, ...rest}) => ({
+    return courses.map(({category, instructor, modules, testimonials, quizSet, ...rest}) => ({
         ...rest,
-        category: category && (() => {
-                const { _id, ...restCategory} = category as ICategory;
-                return { ...restCategory, id: _id.toString() } as ICourseDTO
-            })(),
-        instructor:  (() => {
-                const { _id, ...restInstructor} = instructor as IInstructor;
-                return { ...restInstructor, id: _id.toString() } as IInstructorDTO
-            })(),
-        modules: modules && (() => {
-                return modules.map((module) => {
-                    const { _id, ...restModule } = module as IModule;
-                    return { ...restModule, id: _id.toString() } as unknown as IModuleDTO
-                })
-            })(),
-        testimonials: testimonials && (() => {
-                return testimonials.map(testimonial => {
-                    const { _id, ...restTestimonial } = testimonial as ITestimonial;
-                    return { ...restTestimonial, id: _id.toString() } as ITestimonialDTO
-                });
-            })(),
-        quizSet: quizSet && (() => {
-            const { _id, ...restQuizSet} = quizSet as IQuiz;
-            return { ...restQuizSet, id: _id.toString() } as IQuizDTO
-        })(),
-    }));
+        id: rest._id.toString(),
+        category: replaceMongoIdInObject<ICategory, ICategoryDTO>(category),
+        instructor:  replaceMongoIdInObject<IInstructor, IInstructorDTO>(instructor),
+        modules: convertIdOfArray<IModule, IModuleDTO>(modules),
+        testimonials: convertIdOfArray<ITestimonial, ITestimonialDTO>(testimonials),
+        quizSet: quizSet && replaceMongoIdInObject<IQuiz, IQuizDTO>(quizSet),
+    })) as unknown as ICourseDTO[];
+}
+
+export async function getCourseDetails(id: string): Promise<ICourseDTO> {
+    const course: ICourse = await Course.findById(id).populate({
+        path: "category",
+        model: Category
+    }).populate({
+        path: "instructor",
+        model: User
+    }).populate({
+        path: "testimonials",
+        model: Testimonial,
+        populate: {
+            path: "user",
+            model: User
+        },
+    }).populate({
+        path: "modules",
+        model: Module
+    }).lean<ICourse>() as unknown as ICourse;
+
+    return {
+        ...course,
+        id: course._id.toString(),
+        category: replaceMongoIdInObject<ICategory, ICategoryDTO>(course.category),
+        instructor:  replaceMongoIdInObject<IInstructor, IInstructorDTO>(course.instructor),
+        modules: convertIdOfArray<IModule, IModuleDTO>(course.modules),
+        testimonials: convertIdOfArray<ITestimonial, ITestimonialDTO>(course.testimonials),
+        quizSet: course.quizSet && replaceMongoIdInObject<IQuiz, IQuizDTO>(course.quizSet),
+    }
 }
