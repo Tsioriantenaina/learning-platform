@@ -1,4 +1,4 @@
-import {Types} from "mongoose";
+import { Types} from "mongoose";
 
 export interface ISocialMedia {
     facebook?: string;
@@ -39,16 +39,42 @@ export interface ILesson {
     _id: Types.ObjectId;
     title: string;
     description: string;
-    videoUrl: string;
-    module: IModule;
+    duration: number;
+    video_url: string;
+    published: boolean;
+    slug: string;
+    access: string;
 }
 
 export interface ILessonDTO {
     id: string;
     title: string;
     description: string;
-    videoUrl: string;
-    module: IModuleDTO;
+    duration: number;
+    video_url: string;
+    published: boolean;
+    slug: string;
+    access: string;
+}
+
+export interface IEnrollment {
+    _id: Types.ObjectId;
+    enrollment_date: Date;
+    status: string;
+    completion_date: Date;
+    method: string;
+    course: Types.ObjectId;
+    student: Types.ObjectId;
+}
+
+export interface IEnrollmentDTO {
+    id: string;
+    enrollment_date: Date;
+    status: string;
+    completion_date: Date;
+    method: string;
+    course: Types.ObjectId;
+    student: Types.ObjectId;
 }
 
 export interface IInstructor {
@@ -97,15 +123,15 @@ export interface ITestimonial {
     _id: Types.ObjectId;
     content: string;
     rating: number;
-    courseId?: ICourse;
-    user: IUser;
+    courseId: Types.ObjectId;
+    user: Types.ObjectId;
 }
 
 export interface ITestimonialDTO {
     id: string;
     content: string;
     rating: number;
-    courseId?: ICourseDTO;
+    courseId: Types.ObjectId;
     user: IUserDTO;
 }
 
@@ -116,8 +142,8 @@ export interface IModule {
     status: string;
     slug: string;
     course: ICourse;
-    lessonIds: ILesson[];
-    duration?: number;
+    lessonIds: string[];
+    duration: number;
 }
 
 export interface IModuleDTO {
@@ -127,8 +153,8 @@ export interface IModuleDTO {
     status: string;
     slug: string;
     course: ICourseDTO;
-    lessonIds: ILessonDTO[];
-    duration?: number;
+    lessonIds: string[];
+    duration: number;
 }
 
 interface IOptions {
@@ -189,5 +215,5 @@ export interface ICourseDTO  {
     subtitle: string;
     learning: string[];
     createdOn: Date;
-    modifiedOn: Date;
+    modifiedOn?: Date;
 }

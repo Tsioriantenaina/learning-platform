@@ -1,10 +1,10 @@
-import mongoose, {Schema, ObjectId, Model} from "mongoose";
+import mongoose, {Schema, Model, Types} from "mongoose";
 export interface ITestimonialDocument {
-    _id?: string | ObjectId
+    _id: Types.ObjectId;
     content: string;
     rating: number;
-    courseId?: ObjectId;
-    user?: ObjectId;
+    courseId?: Types.ObjectId;
+    user?: Types.ObjectId;
 }
 
 const testimonialSchema: Schema = new Schema({

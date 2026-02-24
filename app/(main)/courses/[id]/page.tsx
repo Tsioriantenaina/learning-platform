@@ -11,7 +11,7 @@ const SingleCoursePage = async ({params}: {params: Promise<{ id: string }>}) => 
     const course: ICourseDTO = await getCourseDetails(id);
     // const courseParsed = JSON.parse(JSON.stringify(course));
 
-    console.log(course)
+    // console.log(course)
     return (
         <>
             <CourseDetailBanner course={course} />

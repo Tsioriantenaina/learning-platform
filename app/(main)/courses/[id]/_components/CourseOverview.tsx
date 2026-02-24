@@ -24,7 +24,7 @@ const CourseOverview: FC<CourseOverviewProps> = ({course}) => {
                                 <CheckCheck />
                             </div>
                             <div className="flex-1">
-                                { item}
+                                {item}
                             </div>
                         </li>
                     ))}

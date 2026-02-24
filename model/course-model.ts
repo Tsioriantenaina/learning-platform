@@ -1,16 +1,16 @@
-import mongoose, {Schema, ObjectId, Model} from "mongoose";
+import mongoose, {Schema, Model, Types} from "mongoose";
 export interface ICourseDocument {
-    _id?: string | ObjectId
+    _id: Types.ObjectId
     title: string;
     description: string;
     thumbnail: string;
-    modules: ObjectId[];
+    modules: Types.ObjectId[];
     price: number;
     active: boolean;
-    category?: ObjectId;
-    instructor: ObjectId;
-    testimonials?: ObjectId[];
-    quizSet: ObjectId;
+    category?: Types.ObjectId;
+    instructor: Types.ObjectId;
+    testimonials?: Types.ObjectId[];
+    quizSet: Types.ObjectId;
     subtitle: string;
     learning: string[];
     createdOn: Date;

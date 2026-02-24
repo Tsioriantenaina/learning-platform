@@ -1,8 +1,16 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {cn} from "@/lib/utils";
 import {Tv} from "lucide-react";
+import {getLesson} from "@/queries/lessons-query";
 
-const CourseLessonList = () => {
+interface CourseLessonListProps {
+    lessonId: string;
+}
+
+const CourseLessonList: FC<CourseLessonListProps> = async ({ lessonId }) => {
+
+    const lesson = await getLesson(lessonId);
+
     return (
         <button
             type="button"
@@ -12,7 +20,7 @@ const CourseLessonList = () => {
         >
             <div className="flex items-center gap-x-2">
                 <Tv size={16} className={cn("text-slate-500")} />
-                What is React ?
+                {lesson.title}
             </div>
         </button>
     )

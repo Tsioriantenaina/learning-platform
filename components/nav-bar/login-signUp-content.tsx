@@ -14,10 +14,10 @@ const LoginSignUpContent = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 mt-4">
                     <DropdownMenuItem className="cursor-pointer">
-                        <Link href="/student">Student</Link>
+                        <Link href="/register/student">Student register</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer">
-                        <Link href="/instructor">instructor</Link>
+                        <Link href="/register/instructor">instructor register</Link>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

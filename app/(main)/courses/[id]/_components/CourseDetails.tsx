@@ -1,7 +1,7 @@
 import React, {FC} from 'react'
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import CourseOverview from "@/app/(main)/courses/[id]/_components/CourseOverview";
-import CourseCarriculum from "@/app/(main)/courses/[id]/_components/CourseCarriculum";
+import CourseCurriculum from "@/app/(main)/courses/[id]/_components/CourseCarriculum";
 import CourseInstructor from "@/app/(main)/courses/[id]/_components/CourseInstructor";
 import Image from "next/image";
 import {ICourseDTO} from "@/types/types";
@@ -13,7 +13,7 @@ interface CourseDetailsProps {
 
 const CourseDetails: FC<CourseDetailsProps> = async ( { course }) => {
     const { category, title, subtitle, instructor, modifiedOn } = course;
-    const lastUpdateDate: string = formatMyDate(modifiedOn);
+    const lastUpdateDate: string = formatMyDate(modifiedOn!);
     return (
         <section className="py-8 md:py-12 lg:py-24">
             <div className="container">
@@ -49,7 +49,7 @@ const CourseDetails: FC<CourseDetailsProps> = async ( { course }) => {
                     <Tabs defaultValue="overview" className="w-full">
                         <TabsList className="grid w-full grid-cols-3 my-6 max-w-[768px]">
                             <TabsTrigger value="overview">Overview</TabsTrigger>
-                            <TabsTrigger value="curriculum">Carriculum</TabsTrigger>
+                            <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
                             <TabsTrigger value="instructor">Instructor</TabsTrigger>
                             {/* <TabsTrigger value="reviews">Reviews</TabsTrigger> */}
                         </TabsList>
@@ -59,12 +59,12 @@ const CourseDetails: FC<CourseDetailsProps> = async ( { course }) => {
                         </TabsContent>
                         <TabsContent value="curriculum">
                             {/* each tab content can be independent component */}
-                            <CourseCarriculum />
+                            <CourseCurriculum course={course} />
                             {/* contents end */}
                         </TabsContent>
                         <TabsContent value="instructor">
                             {/* each tab content can be independent component */}
-                            <CourseInstructor />
+                            <CourseInstructor course={course} />
                         </TabsContent>
                     </Tabs>
                 </div>
