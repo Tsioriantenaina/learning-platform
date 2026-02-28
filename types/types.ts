@@ -13,8 +13,8 @@ export interface IUser {
     last_name: string;
     password: string;
     email: string;
-    phone: string;
     role: string;
+    phone?: string;
     bio?: string;
     social_media?: ISocialMedia;
     profile_picture?: string;
@@ -27,8 +27,8 @@ export interface IUserDTO {
     last_name: string;
     password: string;
     email: string;
-    phone: string;
     role: string;
+    phone?: string;
     bio?: string;
     social_media?: ISocialMedia;
     profile_picture?: string;

@@ -9,24 +9,24 @@ export interface ISocialMedia {
 
 export interface IUserDocument {
     _id?: string | ObjectId
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     password: string;
     email: string;
-    phone: string;
     role: string;
+    phone?: string;
     bio?: string;
-    socialMedia?: ISocialMedia;
-    profilePicture?: string;
+    social_media?: ISocialMedia;
+    profile_picture?: string;
     designation?: string;
 }
 
 const userSchema: Schema = new Schema({
-    firstName: {
+    first_name: {
         required: true,
         type: String
     },
-    lastName: {
+    last_name: {
         required: true,
         type: String
     },
@@ -38,23 +38,23 @@ const userSchema: Schema = new Schema({
         required: true,
         type: String
     },
-    phone: {
+    role: {
         required: true,
         type: String
     },
-    role: {
-        required: true,
+    phone: {
+        required: false,
         type: String
     },
     bio: {
         required: false,
         type: String
     },
-    socialMedia: {
+    social_media: {
         required: false,
         type: Object
     },
-    profilePicture: {
+    profile_picture: {
         required: false,
         type: String
     },
