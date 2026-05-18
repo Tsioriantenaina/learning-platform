@@ -1,19 +1,17 @@
-
 import Element from "@/components/element";
-import  SectionTitle  from "@/components/section-title";
+import SectionTitle from "@/components/section-title";
 import Support from "@/components/support";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
-import {getCourseList} from "@/queries/courses-query";
+import { getCourseList } from "@/queries/courses-query";
 import CourseCard from "@/app/(main)/courses/_components/CourseCard";
 import { ICategoryDTO, ICourseDTO } from "@/types/types";
-import {getCategoryList} from "@/queries/categories-query";
+import { getCategoryList } from "@/queries/categories-query";
 import Category from "@/app/(main)/categories/_components/Category";
 
-const HomePage = async() => {
-
+const HomePage = async () => {
     const courses: ICourseDTO[] = await getCourseList();
     const categories: ICategoryDTO[] = await getCategoryList();
 
@@ -37,19 +35,27 @@ const HomePage = async() => {
                         Hey, Welcome
                     </span>
                     <h1 className="font-heading text-3xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
-                        Learn By Doing with <br/> Easy Learning
+                        Learn By Doing with <br /> Easy Learning
                     </h1>
                     <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-                        “You don’t understand anything until you learn it more than one
-                        way.”
+                        “You don’t understand anything until you learn it more
+                        than one way.”
                     </p>
                     <div className="flex items-center gap-3 flex-wrap justify-center">
-                        <Link href="/courses" className={cn(buttonVariants({ size: "lg" }))}>
+                        <Link
+                            href="/courses"
+                            className={cn(buttonVariants({ size: "lg" }))}
+                        >
                             Explore Now
                         </Link>
                         <Link
                             href="/register/instructor"
-                            className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+                            className={cn(
+                                buttonVariants({
+                                    variant: "outline",
+                                    size: "lg",
+                                }),
+                            )}
                         >
                             Become An Instructor
                         </Link>
@@ -75,12 +81,20 @@ const HomePage = async() => {
                     </Link>
                 </div>
                 <div className="mx-auto grid justify-center gap-4 grid-cols-2  md:grid-cols-3 2xl:grid-cols-4">
-                    {categories.map((category: ICategoryDTO) => <Category key={category.id as string} category={category} /> )}
+                    {categories.map((category: ICategoryDTO) => (
+                        <Category
+                            key={category.id as string}
+                            category={category}
+                        />
+                    ))}
                 </div>
             </section>
 
             {/* Courses */}
-            <section id="courses" className="container space-y-6   md:py-12 lg:py-24">
+            <section
+                id="courses"
+                className="container space-y-6   md:py-12 lg:py-24"
+            >
                 <div className="flex items-center justify-between">
                     <SectionTitle>Courses</SectionTitle>
                     <Link
@@ -91,12 +105,13 @@ const HomePage = async() => {
                     </Link>
                 </div>
                 <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
-                    {courses.map((course: ICourseDTO) => <CourseCard key={course.id} course={course} />)}
+                    {courses.map((course: ICourseDTO) => (
+                        <CourseCard key={course.id} course={course} />
+                    ))}
                 </div>
             </section>
 
             <Support />
-
         </>
     );
 };
