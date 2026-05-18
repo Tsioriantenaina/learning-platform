@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -10,17 +10,16 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
-import {FC, FormEvent} from "react";
-import {useRouter} from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { FC, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 interface SignupFormProps {
     role: string;
 }
 
-const SignupForm: FC<SignupFormProps> = ({role}) => {
-
+const SignupForm: FC<SignupFormProps> = ({ role }) => {
     const router = useRouter();
 
     const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -34,46 +33,54 @@ const SignupForm: FC<SignupFormProps> = ({role}) => {
             const password = formData.get("password");
             const confirmPassword = formData.get("confirmPassword");
 
-            const userRole = (role === "student" || role === "instructor") ? role : "student";
+            const userRole =
+                role === "student" || role === "instructor" ? role : "student";
 
-
-            if(password?.toString().trim() === confirmPassword?.toString().trim()) {
+            if (
+                password?.toString().trim() ===
+                confirmPassword?.toString().trim()
+            ) {
                 const response = await fetch("/api/register", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
                         first_name,
                         last_name,
                         email,
                         password,
-                        role: userRole
-                    })
+                        role: userRole,
+                    }),
                 });
 
-                if(response.status === 201) router.push("/login");
+                if (response.status === 201) router.push("/login");
             } else {
-                throw new Error('Password and Confirm password should the same');
+                throw new Error(
+                    "Password and Confirm password should the same",
+                );
             }
-
-
-        } catch (e) {
+        } catch (e: unknown) {
             if (e instanceof Error) {
                 console.log(e.message);
             }
         }
-    }
+    };
 
     return (
         <Card className="mx-auto max-w-sm">
             <CardHeader>
                 <CardTitle className="text-xl">
                     <p className="mt-5 text-3xl font-bold leading-tight text-gray-900 sm:leading-tight sm:text-5xl lg:text-3xl lg:leading-tight font-pj">
-                       <span className="relative inline-flex sm:inline">
+                        <span className="relative inline-flex sm:inline">
                             <span className="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 w-full h-full absolute inset-0"></span>
-                            <span className="relative">Sign Up</span>
-                       </span>
+                            <span className="relative">
+                                Sign Up{" "}
+                                {role === "student"
+                                    ? "as Student"
+                                    : "as Instructor"}
+                            </span>
+                        </span>
                     </p>
                 </CardTitle>
                 <CardDescription>
@@ -86,11 +93,21 @@ const SignupForm: FC<SignupFormProps> = ({role}) => {
                         <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="first-name">First name</Label>
-                                <Input id="first-name" name="first_name" placeholder="Max" required/>
+                                <Input
+                                    id="first-name"
+                                    name="first_name"
+                                    placeholder="Max"
+                                    required
+                                />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="last-name">Last name</Label>
-                                <Input id="last-name" name="last_name" placeholder="Robinson" required/>
+                                <Input
+                                    id="last-name"
+                                    name="last_name"
+                                    placeholder="Robinson"
+                                    required
+                                />
                             </div>
                         </div>
                         <div className="grid gap-2">
@@ -105,11 +122,21 @@ const SignupForm: FC<SignupFormProps> = ({role}) => {
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="password">Password</Label>
-                            <Input id="password" name="password" type="password"/>
+                            <Input
+                                id="password"
+                                name="password"
+                                type="password"
+                            />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="confirmPassword">Confirm Password</Label>
-                            <Input id="confirmPassword" name="confirmPassword" type="password"/>
+                            <Label htmlFor="confirmPassword">
+                                Confirm Password
+                            </Label>
+                            <Input
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                type="password"
+                            />
                         </div>
                         <Button type="submit" className="w-full cursor-pointer">
                             Create an account
@@ -125,6 +152,6 @@ const SignupForm: FC<SignupFormProps> = ({role}) => {
             </CardContent>
         </Card>
     );
-}
+};
 
 export default SignupForm;
