@@ -8,6 +8,7 @@ import {
 import { providerMap, signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import LoginWithCredential from "./loginWithCredential";
+import { Button } from "@/components/ui/button";
 
 export function LoginForm() {
     return (
@@ -27,6 +28,7 @@ export function LoginForm() {
             </CardHeader>
             <CardContent>
                 <LoginWithCredential />
+                <hr className="my-4"/>
                 {Object.values(providerMap).map((provider) => (
                     <form
                         key={provider.id}
@@ -58,9 +60,9 @@ export function LoginForm() {
                             }
                         }}
                     >
-                        <button type="submit">
+                        <Button type="submit" variant="outline" className="w-full my-2 cursor-pointer">
                             <span>Sign in with {provider.name}</span>
-                        </button>
+                        </Button>
                     </form>
                 ))}
             </CardContent>
