@@ -1,15 +1,15 @@
-import React, {FC} from 'react'
+import React, { FC } from "react";
 import Link from "next/link";
-import {cn} from "@/lib/utils";
-import {buttonVariants} from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
-import {ICourse, ICourseDTO} from "@/types/types";
+import { ICourse, ICourseDTO } from "@/types/types";
 
 interface CourseDetailBannerProps {
     course: ICourseDTO;
 }
 
-const CourseDetailBanner: FC<CourseDetailBannerProps> = ({course}) => {
+const CourseDetailBanner: FC<CourseDetailBannerProps> = ({ course }) => {
     return (
         <div className="overflow-x-hidden  grainy">
             <section className="pt-12  sm:pt-16">
@@ -20,23 +20,44 @@ const CourseDetailBanner: FC<CourseDetailBannerProps> = ({course}) => {
                                 {course.subtitle}
                             </h1>
                             <p className="mt-5 text-4xl font-bold leading-tight text-gray-900 sm:leading-tight sm:text-5xl lg:text-6xl lg:leading-tight font-pj">
-                                  <span className="relative inline-flex sm:inline">
+                                <span className="relative inline-flex sm:inline">
                                     <span className="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 w-full h-full absolute inset-0"></span>
-                                    <span className="relative">{course.title}</span>
-                                  </span>
+                                    <span className="relative">
+                                        {course.title}
+                                    </span>
+                                </span>
                             </p>
 
                             <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
-                                <Link href="" className={cn(buttonVariants({ size: "lg" }))}>
+                                <Link
+                                    href=""
+                                    className={cn(
+                                        buttonVariants({ size: "lg" }),
+                                    )}
+                                >
                                     Enroll Now
                                 </Link>
                                 <Link
                                     href=""
                                     className={cn(
-                                        buttonVariants({ variant: "outline", size: "lg" })
+                                        buttonVariants({
+                                            variant: "outline",
+                                            size: "lg",
+                                        }),
                                     )}
                                 >
                                     See Intro
+                                </Link>
+                                <Link
+                                    href=""
+                                    className={cn(
+                                        buttonVariants({
+                                            variant: "destructive",
+                                            size: "lg",
+                                        }),
+                                    )}
+                                >
+                                    Price: ${course.price.toFixed(2)}
                                 </Link>
                             </div>
                         </div>
@@ -61,6 +82,6 @@ const CourseDetailBanner: FC<CourseDetailBannerProps> = ({course}) => {
                 </div>
             </section>
         </div>
-    )
-}
-export default CourseDetailBanner
+    );
+};
+export default CourseDetailBanner;

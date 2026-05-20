@@ -62,7 +62,7 @@ const SignupForm: FC<SignupFormProps> = ({ role }) => {
             }
         } catch (e: unknown) {
             if (e instanceof Error) {
-                console.log(e.message);
+                console.error(e.message);
             }
         }
     };

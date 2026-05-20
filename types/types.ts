@@ -1,4 +1,4 @@
-import { Types} from "mongoose";
+import { Types } from "mongoose";
 
 export interface ISocialMedia {
     facebook?: string;
@@ -7,12 +7,15 @@ export interface ISocialMedia {
     linkedin?: string;
 }
 
+export type IPublicUser = Omit<IUserDTO, "password">;
+
 export interface IUser {
     _id: Types.ObjectId;
     first_name: string;
     last_name: string;
     password: string;
     email: string;
+    provider: string;
     role: string;
     phone?: string;
     bio?: string;
@@ -27,6 +30,7 @@ export interface IUserDTO {
     last_name: string;
     password: string;
     email: string;
+    provider: string;
     role: string;
     phone?: string;
     bio?: string;
@@ -79,29 +83,29 @@ export interface IEnrollmentDTO {
 
 export interface IInstructor {
     _id: Types.ObjectId;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     password: string;
     email: string;
     phone: string;
     role: string;
     bio: string;
-    socialMedia: ISocialMedia[],
-    profilePicture: string;
+    social_media: ISocialMedia[];
+    profile_picture: string;
     designation: string;
 }
 
 export interface IInstructorDTO {
     id: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     password: string;
     email: string;
     phone: string;
     role: string;
     bio: string;
-    socialMedia: ISocialMedia[],
-    profilePicture: string;
+    social_media: ISocialMedia[];
+    profile_picture: string;
     designation: string;
 }
 
@@ -166,7 +170,7 @@ export interface IQuiz {
     _id: Types.ObjectId;
     question: string;
     description: string;
-    options: IOptions[]
+    options: IOptions[];
     explanations: string[];
     mark: number;
     slug: string;
@@ -176,13 +180,13 @@ export interface IQuizDTO {
     id: string;
     question: string;
     description: string;
-    options: IOptions[]
+    options: IOptions[];
     explanations: string[];
     mark: number;
     slug: string;
 }
 
-export interface ICourse  {
+export interface ICourse {
     _id: Types.ObjectId;
     title: string;
     description: string;
@@ -191,7 +195,7 @@ export interface ICourse  {
     price: number;
     active: boolean;
     category: ICategory;
-    instructor: IInstructor
+    instructor: IInstructor;
     testimonials?: ITestimonial[];
     quizSet: IQuiz;
     subtitle: string;
@@ -200,7 +204,7 @@ export interface ICourse  {
     modifiedOn?: Date;
 }
 
-export interface ICourseDTO  {
+export interface ICourseDTO {
     id: string;
     title: string;
     description: string;
@@ -209,7 +213,7 @@ export interface ICourseDTO  {
     price: number;
     active: boolean;
     category: ICategoryDTO;
-    instructor: IInstructorDTO
+    instructor: IInstructorDTO;
     testimonials?: ITestimonialDTO[];
     quizSet: IQuizDTO;
     subtitle: string;

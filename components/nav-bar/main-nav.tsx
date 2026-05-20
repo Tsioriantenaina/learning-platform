@@ -26,16 +26,15 @@ interface MainNavProps {
 }
 
 const MainNav: FC<MainNavProps> = ({ items, children }) => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
 
     const [showMobileMenu, setShowMobileMenu] = useState(false);
-    const [loginSession, setLoginSession] = useState<Session | null>(null);
 
     const router = useRouter();
 
     useEffect(() => {
-        setLoginSession(session);
-    }, [session]);
+        if (status === "loading") return; // Do nothing while loading
+    }, [session, status]);
 
     return (
         <>
@@ -67,18 +66,15 @@ const MainNav: FC<MainNavProps> = ({ items, children }) => {
             </div>
 
             <nav className="flex items-center gap-3">
-                {!loginSession && (
-                    <div className="items-center gap-3 hidden lg:flex">
-                        <LoginSignUpContent />
-                    </div>
-                )}
-
-                {loginSession && (
+                {session ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Avatar className="cursor-pointer">
                                 <AvatarImage
-                                    src="https://github.com/shadcn.png"
+                                    src={
+                                        session.user?.profile_picture ||
+                                        "https://i.pravatar.cc"
+                                    }
                                     alt="profile"
                                 />
                                 <AvatarFallback>CN</AvatarFallback>
@@ -95,7 +91,7 @@ const MainNav: FC<MainNavProps> = ({ items, children }) => {
                                 className="cursor-pointer"
                                 asChild
                             >
-                                <Link href="/acount/enrolled-courses">
+                                <Link href="/account/enrolled-courses">
                                     My Courses
                                 </Link>
                             </DropdownMenuItem>
@@ -103,7 +99,7 @@ const MainNav: FC<MainNavProps> = ({ items, children }) => {
                                 className="cursor-pointer"
                                 asChild
                             >
-                                <Link href="/acount/enrolled-courses">
+                                <Link href="/account/testimonials">
                                     Testimonials & certificates
                                 </Link>
                             </DropdownMenuItem>
@@ -115,8 +111,7 @@ const MainNav: FC<MainNavProps> = ({ items, children }) => {
                                     href=""
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        signOut();
-                                        router.push("/");
+                                        signOut({ callbackUrl: "/" });
                                     }}
                                 >
                                     Logout
@@ -124,6 +119,10 @@ const MainNav: FC<MainNavProps> = ({ items, children }) => {
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
+                ) : (
+                    <div className="items-center gap-3 hidden lg:flex">
+                        <LoginSignUpContent />
+                    </div>
                 )}
                 <button
                     onClick={() => setShowMobileMenu(!showMobileMenu)}

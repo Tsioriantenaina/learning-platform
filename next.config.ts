@@ -1,11 +1,14 @@
 import type { NextConfig } from "next";
 
+const hostNames = ["i.pravatar.cc", "res.cloudinary.com"];
+
 const nextConfig: NextConfig = {
-  /* config options here */
+    /* config options here */
     images: {
-        remotePatterns: [
-            new URL('https://i.pravatar.cc/**'),
-        ],
+        remotePatterns: hostNames.map((hostname) => ({
+            protocol: "https",
+            hostname,
+        })),
     },
 };
 

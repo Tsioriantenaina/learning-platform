@@ -1,45 +1,45 @@
-import React, {FC} from 'react'
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import React, { FC } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CourseOverview from "@/app/(main)/courses/[id]/_components/CourseOverview";
 import CourseCurriculum from "@/app/(main)/courses/[id]/_components/CourseCarriculum";
 import CourseInstructor from "@/app/(main)/courses/[id]/_components/CourseInstructor";
 import Image from "next/image";
-import {ICourseDTO} from "@/types/types";
-import {formatMyDate} from "@/lib/date";
+import { ICourseDTO } from "@/types/types";
+import { formatMyDate } from "@/lib/date";
 
 interface CourseDetailsProps {
-    course: ICourseDTO
+    course: ICourseDTO;
 }
 
-const CourseDetails: FC<CourseDetailsProps> = async ( { course }) => {
+const CourseDetails: FC<CourseDetailsProps> = async ({ course }) => {
     const { category, title, subtitle, instructor, modifiedOn } = course;
     const lastUpdateDate: string = formatMyDate(modifiedOn!);
     return (
         <section className="py-8 md:py-12 lg:py-24">
             <div className="container">
-                    <span className="bg-green-500 px-4 py-0.5 rounded-full text-xs font-medium text-white inline-block">
-                        {category?.title }
-                    </span>
+                <span className="bg-green-500 px-4 py-0.5 rounded-full text-xs font-medium text-white inline-block">
+                    {category?.title}
+                </span>
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold 2xl:text-5xl mt-3">
                     {title}
                 </h3>
-                <p className="mt-3 text-gray-600 text-sm">
-                    {subtitle}
-                </p>
+                <p className="mt-3 text-gray-600 text-sm">{subtitle}</p>
                 {/*  */}
                 <div className="flex sm:items-center gap-5 flex-col sm:flex-row sm:gap-6 md:gap-20 mt-6">
                     <div className="flex items-center gap-2">
                         <Image
                             className="w-[40px] h-[40px] rounded-full"
-                            src={instructor.profilePicture}
-                            alt={`${instructor.lastName} ${instructor.firstName}`}
+                            src={instructor.profile_picture}
+                            alt={`${instructor.last_name} ${instructor.first_name}`}
                             width={200}
                             height={200}
                         />
-                        <p className="font-bold">{`${instructor.firstName} ${instructor.lastName}`}</p>
+                        <p className="font-bold">{`${instructor.first_name} ${instructor.last_name}`}</p>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                        <span className="text-success font-semibold">Last Updated: </span>
+                        <span className="text-success font-semibold">
+                            Last Updated:{" "}
+                        </span>
                         <span>{lastUpdateDate}</span>
                     </div>
                 </div>
@@ -49,8 +49,12 @@ const CourseDetails: FC<CourseDetailsProps> = async ( { course }) => {
                     <Tabs defaultValue="overview" className="w-full">
                         <TabsList className="grid w-full grid-cols-3 my-6 max-w-[768px]">
                             <TabsTrigger value="overview">Overview</TabsTrigger>
-                            <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
-                            <TabsTrigger value="instructor">Instructor</TabsTrigger>
+                            <TabsTrigger value="curriculum">
+                                Curriculum
+                            </TabsTrigger>
+                            <TabsTrigger value="instructor">
+                                Instructor
+                            </TabsTrigger>
                             {/* <TabsTrigger value="reviews">Reviews</TabsTrigger> */}
                         </TabsList>
                         <TabsContent value="overview">
@@ -70,6 +74,6 @@ const CourseDetails: FC<CourseDetailsProps> = async ( { course }) => {
                 </div>
             </div>
         </section>
-    )
-}
-export default CourseDetails
+    );
+};
+export default CourseDetails;

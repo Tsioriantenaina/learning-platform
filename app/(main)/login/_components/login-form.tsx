@@ -1,8 +1,3 @@
-"use client";
-
-import Link from "next/link";
-
-import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -10,36 +5,12 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { FormEvent, useState } from "react";
-import { credentialLogin } from "@/app/actions";
-import { useRouter } from "next/navigation";
+import { providerMap, signIn } from "@/auth";
+import { AuthError } from "next-auth";
+import LoginWithCredential from "./loginWithCredential";
+import { Button } from "@/components/ui/button";
 
 export function LoginForm() {
-    const [error, setError] = useState<string>("");
-
-    const router = useRouter();
-
-    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        try {
-            const formData = new FormData(event.currentTarget);
-            const response = await credentialLogin(formData);
-
-            if (!!response.error) {
-                console.log(response.error);
-                setError(response.error);
-            } else {
-                router.push("/courses");
-            }
-            // const email = formData.get("email");
-            // const password = formData.get("password");
-        } catch (e: unknown) {
-            setError(e instanceof Error ? e.message : "Something went wrong");
-        }
-    };
-
     return (
         <Card className="mx-auto max-w-sm w-full">
             <CardHeader>
@@ -56,43 +27,44 @@ export function LoginForm() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <form onSubmit={onSubmit}>
-                    <div className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                name="email"
-                                placeholder="m@example.com"
-                                required
-                            />
-                        </div>
-                        <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Password</Label>
-                                {/* <Link href="#" className="ml-auto inline-block text-sm underline">
-                Forgot your password?
-              </Link> */}
-                            </div>
-                            <Input
-                                id="password"
-                                type="password"
-                                name="password"
-                                required
-                            />
-                        </div>
-                        <Button type="submit" className="w-full">
-                            Login
+                <LoginWithCredential />
+                <hr className="my-4"/>
+                {Object.values(providerMap).map((provider) => (
+                    <form
+                        key={provider.id}
+                        action={async () => {
+                            "use server";
+                            try {
+                                await signIn(provider.id, {
+                                    redirectTo: "/courses",
+                                });
+                            } catch (error) {
+                                // Signin can fail for a number of reasons, such as the user
+                                // not existing, or the user not having the correct role.
+                                // In some cases, you may want to redirect to a custom error
+                                if (error instanceof AuthError) {
+                                    console.error(
+                                        "Authentication error:",
+                                        error.message,
+                                    );
+                                    // return redirect(
+                                    //     `${SIGNIN_ERROR_URL}?error=${error.type}`,
+                                    // );
+                                }
+
+                                // Otherwise if a redirects happens Next.js can handle it
+                                // so you can just re-thrown the error and let Next.js handle it.
+                                // Docs:
+                                // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
+                                throw error;
+                            }
+                        }}
+                    >
+                        <Button type="submit" variant="outline" className="w-full my-2 cursor-pointer">
+                            <span>Sign in with {provider.name}</span>
                         </Button>
-                    </div>
-                    <div className="mt-4 text-center text-sm">
-                        Don&apos;t have an account?{" "}
-                        <Link href="register" className="underline">
-                            Register
-                        </Link>
-                    </div>
-                </form>
+                    </form>
+                ))}
             </CardContent>
         </Card>
     );

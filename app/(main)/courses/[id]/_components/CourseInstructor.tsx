@@ -1,27 +1,29 @@
-import React, {FC} from 'react'
-import {MessageSquare, Presentation, Star, UsersRound} from "lucide-react";
-import {ICourseDTO} from "@/types/types";
+import React, { FC } from "react";
+import { MessageSquare, Presentation, Star, UsersRound } from "lucide-react";
+import { ICourseDTO } from "@/types/types";
 import Image from "next/image";
-import {getCourseDetailsByInstructor} from "@/queries/courses-query";
+import { getCourseDetailsByInstructor } from "@/queries/courses-query";
 
 interface CourseInstructorProps {
     course: ICourseDTO;
 }
 
-const CourseInstructor: FC<CourseInstructorProps> = async ({course}) => {
+const CourseInstructor: FC<CourseInstructorProps> = async ({ course }) => {
     const { instructor } = course;
 
-    const fullName = `${instructor.firstName} ${instructor.lastName}`;
-    // console.log("COURS ==> ", course.instructor)
-    console.log("INSTRUCTOR ==> ", await getCourseDetailsByInstructor(instructor.id))
-    const courseDetailsByInstructor = await getCourseDetailsByInstructor(instructor.id);
-    const {courses, reviews, totalEnrollments, ratings} = courseDetailsByInstructor;
+    const fullName = `${instructor.first_name} ${instructor.last_name}`;
+
+    const courseDetailsByInstructor = await getCourseDetailsByInstructor(
+        instructor.id,
+    );
+    const { courses, reviews, totalEnrollments, ratings } =
+        courseDetailsByInstructor;
     return (
         <div className="bg-gray-50 rounded-md p-8">
             <div className="md:flex md:gap-x-5 mb-8">
                 <div className="h-[310px] w-[270px] max-w-full  flex-none rounded mb-5 md:mb-0">
                     <Image
-                        src={instructor.profilePicture}
+                        src={instructor.profile_picture}
                         alt={fullName}
                         className="w-full h-full object-cover rounded"
                         width={200}
@@ -51,14 +53,16 @@ const CourseInstructor: FC<CourseInstructorProps> = async ({course}) => {
                             </li>
                             <li className="flex space-x-3">
                                 <Star className="text-gray-600" />
-                                <div>{ratings.toPrecision(2)} Average Rating</div>
+                                <div>
+                                    {ratings.toPrecision(2)} Average Rating
+                                </div>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <p className="text-gray-600">{ instructor.bio }</p>
+            <p className="text-gray-600">{instructor.bio}</p>
         </div>
-    )
-}
-export default CourseInstructor
+    );
+};
+export default CourseInstructor;

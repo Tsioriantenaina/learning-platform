@@ -1,7 +1,13 @@
-import React, {FC} from 'react'
+import React, { FC } from "react";
 import SectionTitle from "@/components/section-title";
-import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
-import {ITestimonialDTO} from "@/types/types";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
+import { ITestimonialDTO } from "@/types/types";
 import Image from "next/image";
 import StarRating from "@/components/star-rating";
 
@@ -9,8 +15,7 @@ interface TestimonialsProps {
     testimonials: ITestimonialDTO[];
 }
 
-const Testimonials: FC<TestimonialsProps> = ({testimonials}) => {
-    // console.log("Testimonial => ",testimonials)
+const Testimonials: FC<TestimonialsProps> = ({ testimonials }) => {
     return (
         <section className="pb-8 md:pb-12 lg:pb-24">
             <div className="container">
@@ -24,41 +29,60 @@ const Testimonials: FC<TestimonialsProps> = ({testimonials}) => {
                     <CarouselPrevious />
                     <CarouselNext />
                     <CarouselContent className="py-4">
-                        {testimonials.map((testimonial: ITestimonialDTO, index) => (
-                            <CarouselItem
-                                key={index}
-                                className="md:basis-1/2 lg:basis-1/3"
-                            >
-                                <div className="sm:break-inside-avoid">
-                                    <blockquote className="rounded-lg bg-gray-50 p-6  sm:p-8 shadow-sm">
-                                        <div className="flex items-center gap-4">
-                                            <Image
-                                                alt={`Profile ${testimonial?.user?.first_name}`}
-                                                src={testimonial?.user?.profile_picture ? testimonial.user.profile_picture : "/assets/images/users/user-placeholder.png"}
-                                                width="56"
-                                                height="56"
-                                                className="size-14 rounded-full object-cover"
-                                            />
-                                            <div>
-                                                <p className="mt-0.5 text-lg font-medium text-gray-900">
-                                                    {testimonial.user?.first_name} {testimonial.user?.last_name}
-                                                </p>
-                                                <div className="flex justify-center gap-0.5 text-yellow-600">
-                                                    <StarRating rating={testimonial.rating} />
+                        {testimonials.map(
+                            (testimonial: ITestimonialDTO, index) => (
+                                <CarouselItem
+                                    key={index}
+                                    className="md:basis-1/2 lg:basis-1/3"
+                                >
+                                    <div className="sm:break-inside-avoid">
+                                        <blockquote className="rounded-lg bg-gray-50 p-6  sm:p-8 shadow-sm">
+                                            <div className="flex items-center gap-4">
+                                                <Image
+                                                    alt={`Profile ${testimonial?.user?.first_name}`}
+                                                    src={
+                                                        testimonial?.user
+                                                            ?.profile_picture
+                                                            ? testimonial.user
+                                                                  .profile_picture
+                                                            : "/assets/images/users/user-placeholder.png"
+                                                    }
+                                                    width="56"
+                                                    height="56"
+                                                    className="size-14 rounded-full object-cover"
+                                                />
+                                                <div>
+                                                    <p className="mt-0.5 text-lg font-medium text-gray-900">
+                                                        {
+                                                            testimonial.user
+                                                                ?.first_name
+                                                        }{" "}
+                                                        {
+                                                            testimonial.user
+                                                                ?.last_name
+                                                        }
+                                                    </p>
+                                                    <div className="flex justify-center gap-0.5 text-yellow-600">
+                                                        <StarRating
+                                                            rating={
+                                                                testimonial.rating
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <p className="mt-4 text-gray-700">
-                                            {testimonial.content}
-                                        </p>
-                                    </blockquote>
-                                </div>
-                            </CarouselItem>
-                        ))}
+                                            <p className="mt-4 text-gray-700">
+                                                {testimonial.content}
+                                            </p>
+                                        </blockquote>
+                                    </div>
+                                </CarouselItem>
+                            ),
+                        )}
                     </CarouselContent>
                 </Carousel>
             </div>
         </section>
-    )
-}
-export default Testimonials
+    );
+};
+export default Testimonials;

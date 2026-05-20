@@ -1,4 +1,4 @@
-import mongoose, {Schema, ObjectId, Model} from "mongoose";
+import mongoose, { Schema, ObjectId, Model } from "mongoose";
 
 export interface ISocialMedia {
     facebook?: string;
@@ -8,12 +8,13 @@ export interface ISocialMedia {
 }
 
 export interface IUserDocument {
-    _id?: string | ObjectId
+    _id?: string | ObjectId;
     first_name: string;
     last_name: string;
     password: string;
     email: string;
     role: string;
+    provider: string;
     phone?: string;
     bio?: string;
     social_media?: ISocialMedia;
@@ -24,44 +25,55 @@ export interface IUserDocument {
 const userSchema: Schema = new Schema({
     first_name: {
         required: true,
-        type: String
+        type: String,
     },
     last_name: {
         required: true,
-        type: String
+        type: String,
     },
     password: {
-        required: true,
-        type: String
+        required: function () {
+            return this.provider === "credentials";
+        },
+        type: String,
     },
     email: {
         required: true,
-        type: String
+        type: String,
     },
     role: {
         required: true,
-        type: String
+        type: String,
+    },
+    provider: {
+        required: true,
+        type: String,
+        default: "credentials",
     },
     phone: {
         required: false,
-        type: String
+        type: String,
     },
     bio: {
         required: false,
-        type: String
+        type: String,
+        default: "",
     },
     social_media: {
         required: false,
-        type: Object
+        type: Object,
     },
     profile_picture: {
         required: false,
-        type: String
+        type: String,
+        default: "https://i.pravatar.cc",
     },
     designation: {
         required: false,
-        type: String
-    }
+        type: String,
+        default: "",
+    },
 });
 
-export const User: Model<IUserDocument> = mongoose.models.User ?? mongoose.model<IUserDocument>("User", userSchema);
+export const User: Model<IUserDocument> =
+    mongoose.models.User ?? mongoose.model<IUserDocument>("User", userSchema);

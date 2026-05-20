@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import {Geist, Geist_Mono, Inter} from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import {cn} from "@/lib/utils";
-import {Toaster} from "@/components/ui/sonner";
-import {dbConnect} from "@/services/mongo";
+import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
+import { dbConnect } from "@/services/mongo";
+import Providers from "./providers";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -21,21 +22,24 @@ export const metadata: Metadata = {
 };
 
 const poppins = Inter({
-    subsets: ['latin'],
-    variable: '--font-poppins'
-})
+    subsets: ["latin"],
+    variable: "--font-poppins",
+});
 
-export default async function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
-
-    const dbConnection = await dbConnect();
+export default async function RootLayout({
+    children,
+}: Readonly<{ children: React.ReactNode }>) {
+    await dbConnect();
 
     return (
         <html lang="en">
             <body
-                className={cn(`${geistSans.variable} ${geistMono.variable} antialiased, ${poppins.className}`)}
+                className={cn(
+                    `${geistSans.variable} ${geistMono.variable} antialiased, ${poppins.className}`,
+                )}
             >
-                {children}
-                <Toaster richColors={true} position="top-center"/>
+                <Providers>{children}</Providers>
+                <Toaster richColors={true} position="top-center" />
             </body>
         </html>
     );

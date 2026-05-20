@@ -7,6 +7,6 @@ export async function dbConnect() {
         );
         return connexion;
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
