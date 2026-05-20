@@ -1,0 +1,68 @@
+import React, { FC } from "react";
+import { MessageSquare, Presentation, Star, UsersRound } from "lucide-react";
+import { ICourseDTO } from "@/types/types";
+import Image from "next/image";
+import { getCourseDetailsByInstructor } from "@/queries/courses-query";
+
+interface CourseInstructorProps {
+    course: ICourseDTO;
+}
+
+const CourseInstructor: FC<CourseInstructorProps> = async ({ course }) => {
+    const { instructor } = course;
+
+    const fullName = `${instructor.first_name} ${instructor.last_name}`;
+
+    const courseDetailsByInstructor = await getCourseDetailsByInstructor(
+        instructor.id,
+    );
+    const { courses, reviews, totalEnrollments, ratings } =
+        courseDetailsByInstructor;
+    return (
+        <div className="bg-gray-50 rounded-md p-8">
+            <div className="md:flex md:gap-x-5 mb-8">
+                <div className="h-[310px] w-[270px] max-w-full  flex-none rounded mb-5 md:mb-0">
+                    <Image
+                        src={instructor.profile_picture}
+                        alt={fullName}
+                        className="w-full h-full object-cover rounded"
+                        width={200}
+                        height={200}
+                    />
+                </div>
+                <div className="flex-1">
+                    <div className="max-w-[300px]">
+                        <h4 className="text-[34px] font-bold leading-[51px]">
+                            {fullName}
+                        </h4>
+                        <div className="text-gray-600 font-medium mb-6">
+                            {instructor.designation}
+                        </div>
+                        <ul className="list space-y-4">
+                            <li className="flex items-center space-x-3">
+                                <Presentation className="text-gray-600" />
+                                <div>{courses} + Courses</div>
+                            </li>
+                            <li className="flex space-x-3">
+                                <UsersRound className="text-gray-600" />
+                                <div>{totalEnrollments} + Student Learned</div>
+                            </li>
+                            <li className="flex space-x-3">
+                                <MessageSquare className="text-gray-600" />
+                                <div>{reviews} + Reviews</div>
+                            </li>
+                            <li className="flex space-x-3">
+                                <Star className="text-gray-600" />
+                                <div>
+                                    {ratings.toPrecision(2)} Average Rating
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <p className="text-gray-600">{instructor.bio}</p>
+        </div>
+    );
+};
+export default CourseInstructor;
